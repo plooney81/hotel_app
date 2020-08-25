@@ -181,6 +181,7 @@ def add_hotel():
         #could potentially ask for room numbers, will do this later
         if user_hotel == 'yes':
             hotels.append({})
+            print(hotels)
             break
         else:
             break
@@ -194,7 +195,6 @@ def delete_hotel():
             counter += 1         
         user_input = int(input(f'What hotel would you like to delete?  \n')) - 1
         del hotels[user_input]
-        print(hotels)
         delete_again = input('Would you like to delete another hotel? \n')
         if delete_again == 'yes':
             pass
