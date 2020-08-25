@@ -160,32 +160,64 @@ def main_menu(hotels):
             # guest_who_went_away = checkout()
             # print(guest_who_went_away)
             checkout()
+        elif user_input == 'add':
+            add_hotel()
+        elif user_input == 'delete':
+            delete_hotel()
         elif user_input == 'quit':
             break
         else:
             print('Invalid input, please type either print, check in, check out, or quit')
 
-main_menu(hotels)
+
 
 
 
 
 # open a new hotel
+def add_hotel():
+    while True:
+        user_hotel = input('Would you like to add a hotel? ')
+        #could potentially ask for room numbers, will do this later
+        if user_hotel == 'yes':
+            hotels.append({})
+            break
+        else:
+            break
 
 # close a hotel
+def delete_hotel():
+    counter = 1
+    while True: 
+        for hotel in hotels:
+            print(f'Hotel {counter} is the {hotel}')
+            counter += 1         
+        user_input = int(input(f'What hotel would you like to delete?  \n')) - 1
+        del hotels[user_input]
+        print(hotels)
+        delete_again = input('Would you like to delete another hotel? \n')
+        if delete_again == 'yes':
+            pass
+        else:
+            break
 
-# save room info into a json file
-def export_hotel(hotel):
-    print('Which hotel info would you like to export to an external file?')
-    hotel_number = which_hotel_stayin_in(hotel)
-    with open(f'{hotel_number}.txt', 'w') as outfile:
-        json.dump(hotel[hotel_number], outfile)
 
-# load room info from a json file
-def load_hotel():
-    open_again = "y"
-    while open_again == "y":
-        with open(input("What would you like to read? ") as hotel_file:
-        hotel_json = json.load(hotel_file)
-        print(hotel_json)
-        open_again = input("Would you like to look at a new file? [y/n]: ")
+# # save room info into a json file
+# def export_hotel(hotel):
+#     print('Which hotel info would you like to export to an external file?')
+#     hotel_number = which_hotel_stayin_in(hotel)
+#     with open(f'{hotel_number}.txt', 'w') as outfile:
+#         json.dump(hotel[hotel_number], outfile)
+
+# # load room info from a json file
+# def load_hotel():
+#     open_again = "y"
+#     while open_again == "y":
+#         with open(input("What would you like to read? ") as hotel_file:
+#         hotel_json = json.load(hotel_file)
+#         print(hotel_json)
+#         open_again = input("Would you like to look at a new file? [y/n]: ")
+
+# export_hotel(hotel)
+
+main_menu(hotels)
