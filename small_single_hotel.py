@@ -1,10 +1,11 @@
 # the goal of the small excercise is to get practice with the syntax for querying and manipulating the data in a single, nested dictionary.
 
-hotel = [{
+hotels = [{
      '101': {
         'guest': {
             'name': 'Elliot Alderson',
-            'phone': 8675309
+            'phone': 8675309,
+            'paid' : 'yes'
         }
     },
     '102': {},
@@ -12,7 +13,8 @@ hotel = [{
     '104': {
         'guest': {
             'name': 'Darlene Alderson',
-            'phone': 4567890
+            'phone': 4567890,
+            'paid' : 'no'
          }
     },
     '105': {},
@@ -21,7 +23,8 @@ hotel = [{
      '101': {
         'guest': {
             'name': 'Elliot Alderson',
-            'phone': 8675309
+            'phone': 8675309,
+            'paid' : 'yes'
         }
     },
     '102': {},
@@ -29,7 +32,8 @@ hotel = [{
     '104': {
         'guest': {
             'name': 'Darlene Alderson',
-            'phone': 4567890
+            'phone': 4567890,
+            'paid' : 'no'
          }
     },
     '105': {},
@@ -38,7 +42,8 @@ hotel = [{
      '101': {
         'guest': {
             'name': 'Elliot Alderson',
-            'phone': 8675309
+            'phone': 8675309,
+            'paid' : 'yes'
         }
     },
     '102': {},
@@ -46,7 +51,8 @@ hotel = [{
     '104': {
         'guest': {
             'name': 'Darlene Alderson',
-            'phone': 4567890
+            'phone': 4567890,
+            'paid' : 'no'
          }
     },
     '105': {},
@@ -98,31 +104,42 @@ def checkout():
     y2 = "y2"
     while y2 == 'y2':
         takes_a_index = int(input("Which hotel are they staying in? "))
-        if takes_a_index < len(hotel) - 1:
-            which_hotel = hotel[takes_a_index]
+        if takes_a_index < len(hotels) - 1:
+            which_hotel = hotels[takes_a_index]
             y2 = ''
         else:
             print("I didn't catch that.")
     while y == 'y':
         takes_a_key = input("What room number is checking out? ")
-        if takes_a_key in which_hotel:
+        if takes_a_key in which_hotel and (hotels[takes_a_index][takes_a_key]["guest"]["paid"] == 'yes'):
             checking_out.append(which_hotel[takes_a_key])
             which_hotel[takes_a_key] = {}
             print(f"Our current roster in this hotel is\n\n{which_hotel}\n\nGuests currently checking out are \n\n{checking_out}\n")
+            y = input("Is someone else checking out? [y/n]: ")
+        elif takes_a_key in which_hotel and (hotels[takes_a_index][takes_a_key]["guest"]["paid"] == 'no'):
+            print('This guest still needs to pay!')
             y = input("Is someone else checking out? [y/n]: ")
         else:
             print("I didn't catch that.")
     return checking_out
 
 # funciton for the main menu
-def main_menu(hotel):
+def main_menu(hotels):
     # main menue
     while True:
         user_input = input('\nWhat would you like to?\n1.Print hotel room status(print)\n2.Check in customer(check in)\n3.Check out customer(check out)\n4.Quit(quit)\n> ').lower()
         if user_input == 'print':
-            takes_a_index = which_hotel_stayin_in(hotel)
-            room_number = which_room_staying_in(hotel, takes_a_index)
-            print(is_vacant(hotel, room_number, takes_a_index))
+            hotel_counter = 1
+            # takes_a_index = which_hotel_stayin_in(hotel)
+            # room_number = which_room_staying_in(hotel, takes_a_index)
+            # print(is_vacant(hotel, room_number, takes_a_index))
+            for hotel in hotels:
+                guest_counter = 1
+                for room in hotel.keys(): 
+                    if 'guest' in hotel[room]:
+                        print(f"hotel {hotel_counter} guest number {guest_counter}: {hotel[room]['guest']['name']} is staying in room number {room}\n")
+                        guest_counter += 1
+                hotel_counter += 1
         elif user_input == 'check in':
             print('\nFirst we need the guests name:')
             user_name = input('> ')
@@ -133,9 +150,9 @@ def main_menu(hotel):
                 'name' : user_name,
                 'phone' : user_phone
             }
-            takes_a_index = which_hotel_stayin_in(hotel)
-            room_number = which_room_staying_in(hotel, takes_a_index)
-            hotel = check_in(room_number, guest_info_dictionary, hotel, takes_a_index)
+            takes_a_index = which_hotel_stayin_in(hotels)
+            room_number = which_room_staying_in(hotels, takes_a_index)
+            hotels = check_in(room_number, guest_info_dictionary, hotels, takes_a_index)
         elif user_input == 'check out':
             # guest_who_went_away = checkout()
             # print(guest_who_went_away)
@@ -145,4 +162,15 @@ def main_menu(hotel):
         else:
             print('Invalid input, please type either print, check in, check out, or quit')
 
-main_menu(hotel)
+main_menu(hotels)
+
+
+
+
+# open a new hotel
+
+# close a hotel
+
+# save room info into a json file
+
+# load room info into a json file
