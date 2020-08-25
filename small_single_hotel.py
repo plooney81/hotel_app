@@ -52,7 +52,25 @@ hotel = [{
     '105': {},
 }] 
 
+# function that checks if the hotel# exists
+def which_hotel_stayin_in(hotel):
+        while True:
+            try:
+                takes_a_index = int(input("Which hotel are they staying in? "))
+                if takes_a_index > len(hotel) - 1 or takes_a_index < 0:
+                    raise ValueError
+                else:
+                    return takes_a_index
+            except ValueError:
+                print("I didn't catch that.")
 
+def which_room_staying_in(hotel, hotel_numb):
+    room_number = input('Whats the room number?')
+    while True:
+        if room_number in hotel[hotel_numb]:
+            return room_number
+        else:
+            room_number = input(f'That room number doesn\'t exist in hotel {hotel}. Please try again.\n> ')
 
 #function that checks to see if the room is vacant in the hotel
 def is_vacant(hotel, room, hotel_numb):
@@ -63,9 +81,14 @@ def is_vacant(hotel, room, hotel_numb):
 
 # function that checks a guest in given the desired_room, the guest info (in dictionary format), and the dictionary itself
 def check_in(desired_room, guest_info_dictionary, dictionary, hotel_numb):
+    while True:
+        if is_vacant(dictionary, desired_room, hotel_numb) == 'Room is empty':
+            break
+        else:
+            desired_room = input('That room is not vacant, please input another room\n> ')
     for room in dictionary[hotel_numb]:
         if room == desired_room:
-            dictionary[room]['guest'] = guest_info_dictionary
+            dictionary[hotel_numb][room]['guest'] = guest_info_dictionary
     return dictionary
 
 # function that checks out a guest
@@ -75,7 +98,7 @@ def checkout():
     y2 = "y2"
     while y2 == 'y2':
         takes_a_index = int(input("Which hotel are they staying in? "))
-        if takes_a_index < len(hotel):
+        if takes_a_index < len(hotel) - 1:
             which_hotel = hotel[takes_a_index]
             y2 = ''
         else:
@@ -99,21 +122,14 @@ def checkout():
 
 # hotel = check_in("102", example_dictionary_guest_info, hotel)
 
-# print(hotel)
+# print(len(hotel))
 
 # main menue
 while True:
     user_input = input('\nWhat would you like to?\n1.Print hotel room status(print)\n2.Check in customer(check in)\n3.Check out customer(check out)\n4.Quit(quit)\n> ').lower()
     if user_input == 'print':
-        y3 = "y2"
-        while y3 == 'y2':
-            takes_a_index = int(input("Which hotel are they staying in? "))
-            if takes_a_index < len(hotel):
-                which_hotel = hotel[takes_a_index]
-                y3 = ''
-            else:
-                print("I didn't catch that.")
-        room_number = input('What room number would you like check on?')
+        takes_a_index = which_hotel_stayin_in(hotel)
+        room_number = which_room_staying_in(hotel, takes_a_index)
         print(is_vacant(hotel, room_number, takes_a_index))
     elif user_input == 'check in':
         print('\nFirst we need the guests name:')
@@ -125,3 +141,12 @@ while True:
             'name' : user_name,
             'phone' : user_phone
         }
+        takes_a_index = which_hotel_stayin_in(hotel)
+        room_number = which_room_staying_in(hotel, takes_a_index)
+        hotel = check_in(room_number, guest_info_dictionary, hotel, takes_a_index)
+    elif user_input == 'check out':
+        guest_who_went_away = checkout()
+    elif user_input == 'quit':
+        break
+    else:
+        print('Invalid input, please type either print, check in, check out, or quit')
