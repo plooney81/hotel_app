@@ -56,7 +56,7 @@ hotel = [{
 def which_hotel_stayin_in(hotel):
         while True:
             try:
-                takes_a_index = int(input("Which hotel are they staying in? "))
+                takes_a_index = int(input("Which hotel are they staying in?\n> "))
                 if takes_a_index > len(hotel) - 1 or takes_a_index < 0:
                     raise ValueError
                 else:
@@ -65,12 +65,12 @@ def which_hotel_stayin_in(hotel):
                 print("I didn't catch that.")
 
 def which_room_staying_in(hotel, hotel_numb):
-    room_number = input('Whats the room number?')
+    room_number = input('Whats the room number?\n> ')
     while True:
         if room_number in hotel[hotel_numb]:
             return room_number
         else:
-            room_number = input(f'That room number doesn\'t exist in hotel {hotel}. Please try again.\n> ')
+            room_number = input(f'That room number doesn\'t exist in hotel {hotel_numb}. Please try again.\n> ')
 
 #function that checks to see if the room is vacant in the hotel
 def is_vacant(hotel, room, hotel_numb):
@@ -114,39 +114,35 @@ def checkout():
             print("I didn't catch that.")
     return checking_out
 
+# funciton for the main menu
+def main_menu(hotel):
+    # main menue
+    while True:
+        user_input = input('\nWhat would you like to?\n1.Print hotel room status(print)\n2.Check in customer(check in)\n3.Check out customer(check out)\n4.Quit(quit)\n> ').lower()
+        if user_input == 'print':
+            takes_a_index = which_hotel_stayin_in(hotel)
+            room_number = which_room_staying_in(hotel, takes_a_index)
+            print(is_vacant(hotel, room_number, takes_a_index))
+        elif user_input == 'check in':
+            print('\nFirst we need the guests name:')
+            user_name = input('> ')
+            print('\nWe also need the guests phone number')
+            user_phone = input('> ')
+            # create a dictionary for the guest information
+            guest_info_dictionary = {
+                'name' : user_name,
+                'phone' : user_phone
+            }
+            takes_a_index = which_hotel_stayin_in(hotel)
+            room_number = which_room_staying_in(hotel, takes_a_index)
+            hotel = check_in(room_number, guest_info_dictionary, hotel, takes_a_index)
+        elif user_input == 'check out':
+            # guest_who_went_away = checkout()
+            # print(guest_who_went_away)
+            checkout()
+        elif user_input == 'quit':
+            break
+        else:
+            print('Invalid input, please type either print, check in, check out, or quit')
 
-# example_dictionary_guest_info = {
-#             'name': 'John Doe',
-#             'phone': 8675309
-#         }
-
-# hotel = check_in("102", example_dictionary_guest_info, hotel)
-
-# print(len(hotel))
-
-# main menue
-while True:
-    user_input = input('\nWhat would you like to?\n1.Print hotel room status(print)\n2.Check in customer(check in)\n3.Check out customer(check out)\n4.Quit(quit)\n> ').lower()
-    if user_input == 'print':
-        takes_a_index = which_hotel_stayin_in(hotel)
-        room_number = which_room_staying_in(hotel, takes_a_index)
-        print(is_vacant(hotel, room_number, takes_a_index))
-    elif user_input == 'check in':
-        print('\nFirst we need the guests name:')
-        user_name = input('> ')
-        print('\nWe also need the guests phone number')
-        user_phone = input('> ')
-        # create a dictionary for the guest information
-        guest_info_dictionary = {
-            'name' : user_name,
-            'phone' : user_phone
-        }
-        takes_a_index = which_hotel_stayin_in(hotel)
-        room_number = which_room_staying_in(hotel, takes_a_index)
-        hotel = check_in(room_number, guest_info_dictionary, hotel, takes_a_index)
-    elif user_input == 'check out':
-        guest_who_went_away = checkout()
-    elif user_input == 'quit':
-        break
-    else:
-        print('Invalid input, please type either print, check in, check out, or quit')
+main_menu(hotel)
