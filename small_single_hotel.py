@@ -103,7 +103,7 @@ def checkout():
 
 # main menue
 while True:
-    user_input = input('What would you like to?\n1.Print hotel room status(print)\n2.Check in customer(check in)\n3.Check out customer(check out)\n4.Quit(quit)\n> ').lower()
+    user_input = input('\nWhat would you like to?\n1.Print hotel room status(print)\n2.Check in customer(check in)\n3.Check out customer(check out)\n4.Quit(quit)\n> ').lower()
     if user_input == 'print':
         y3 = "y2"
         while y3 == 'y2':
@@ -115,3 +115,13 @@ while True:
                 print("I didn't catch that.")
         room_number = input('What room number would you like check on?')
         print(is_vacant(hotel, room_number, takes_a_index))
+    elif user_input == 'check in':
+        print('\nFirst we need the guests name:')
+        user_name = input('> ')
+        print('\nWe also need the guests phone number')
+        user_phone = input('> ')
+        # create a dictionary for the guest information
+        guest_info_dictionary = {
+            'name' : user_name,
+            'phone' : user_phone
+        }
