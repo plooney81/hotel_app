@@ -1,3 +1,5 @@
+import json
+
 # the goal of the small excercise is to get practice with the syntax for querying and manipulating the data in a single, nested dictionary.
 
 hotels = [{
@@ -62,7 +64,7 @@ hotels = [{
 def which_hotel_stayin_in(hotel):
         while True:
             try:
-                takes_a_index = int(input("Which hotel are they staying in?\n> "))
+                takes_a_index = int(input("> "))
                 if takes_a_index > len(hotel) - 1 or takes_a_index < 0:
                     raise ValueError
                 else:
@@ -150,6 +152,7 @@ def main_menu(hotels):
                 'name' : user_name,
                 'phone' : user_phone
             }
+            print('What hotel are they staying in?')
             takes_a_index = which_hotel_stayin_in(hotels)
             room_number = which_room_staying_in(hotels, takes_a_index)
             hotels = check_in(room_number, guest_info_dictionary, hotels, takes_a_index)
@@ -172,5 +175,17 @@ main_menu(hotels)
 # close a hotel
 
 # save room info into a json file
+def export_hotel(hotel):
+    print('Which hotel info would you like to export to an external file?')
+    hotel_number = which_hotel_stayin_in(hotel)
+    with open(f'{hotel_number}.txt', 'w') as outfile:
+        json.dump(hotel[hotel_number], outfile)
 
-# load room info into a json file
+# load room info from a json file
+def load_hotel():
+    open_again = "y"
+    while open_again == "y":
+        with open(input("What would you like to read? ") as hotel_file:
+        hotel_json = json.load(hotel_file)
+        print(hotel_json)
+        open_again = input("Would you like to look at a new file? [y/n]: ")
